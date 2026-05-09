@@ -249,6 +249,16 @@
       position: relative; z-index: 1;
     }
 
+    .gallery-card[data-featured="true"] {
+      box-shadow: 0 4px 20px rgba(201,107,138,.15);
+    }
+    .gallery-card[data-featured="true"] .card-img::after {
+      content: '⭐';
+      position: absolute; top: .6rem; right: .6rem;
+      font-size: 1rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,.2));
+    }
+
     /* ── TARJETA ── */
     .gallery-card {
       background: var(--white);
@@ -696,6 +706,7 @@
   <!-- FILTROS -->
   <div class="filter-bar">
     <button class="filter-btn active" data-filter="todos">Todas 🌸</button>
+    <button class="filter-btn" data-filter="destacadas">⭐ Destacadas</button>
     <button class="filter-btn" data-filter="aretes">Aretes</button>
     <button class="filter-btn" data-filter="pulseras">Pulseras</button>
     <button class="filter-btn" data-filter="anillos">Anillos</button>
@@ -723,7 +734,7 @@
       <div class="card-info"><p class="card-name">Aretes Florales</p><span class="card-cat">Aretes</span></div>
     </div>
 
-    <div class="gallery-card" data-cat="aretes" data-name="Aretes Perla Rosa" data-price="₡4.500" data-desc="Perlas rosadas con detalle dorado. Elegantes para cualquier ocasión.">
+    <div class="gallery-card" data-cat="aretes" data-featured="true" data-name="Aretes Perla Rosa" data-price="₡4.500" data-desc="Perlas rosadas con detalle dorado. Elegantes para cualquier ocasión.">
       <div class="card-img">
         <!-- <img src="img/aretes-02.jpg" alt="Aretes Perla Rosa"> -->
         <div class="card-img-placeholder">📸<br/>aretes-02.jpg</div>
@@ -780,7 +791,7 @@
       <div class="card-info"><p class="card-name">Pulsera Tejida</p><span class="card-cat">Pulseras</span></div>
     </div>
 
-    <div class="gallery-card" data-cat="pulseras" data-name="Pulsera de Perlas" data-price="₡5.500" data-desc="Perlas de diferentes tamaños en un diseño delicado y femenino.">
+    <div class="gallery-card" data-cat="pulseras" data-featured="true" data-name="Pulsera de Perlas" data-price="₡5.500" data-desc="Perlas de diferentes tamaños en un diseño delicado y femenino.">
       <div class="card-img">
         <!-- <img src="img/pulsera-02.jpg" alt="Pulsera de Perlas"> -->
         <div class="card-img-placeholder">📸<br/>pulsera-02.jpg</div>
@@ -789,7 +800,7 @@
       <div class="card-info"><p class="card-name">Pulsera de Perlas</p><span class="card-cat">Pulseras</span></div>
     </div>
 
-    <div class="gallery-card" data-cat="pulseras" data-name="Pulsera Macramé" data-price="₡4.500" data-desc="Estilo bohemio con nudos artesanales y cuentas de colores.">
+    <div class="gallery-card" data-cat="pulseras" data-featured="true" data-name="Pulsera Macramé" data-price="₡4.500" data-desc="Estilo bohemio con nudos artesanales y cuentas de colores.">
       <div class="card-img">
         <!-- <img src="img/pulsera-03.jpg" alt="Pulsera Macramé"> -->
         <div class="card-img-placeholder">📸<br/>pulsera-03.jpg</div>
@@ -816,7 +827,7 @@
       <div class="card-info"><p class="card-name">Pulsera Colorida</p><span class="card-cat">Pulseras</span></div>
     </div>
 
-    <div class="gallery-card" data-cat="pulseras" data-name="Pulsera Elegante" data-price="₡6.000" data-desc="Cadena dorada con cristales. Perfecta para una ocasión especial.">
+    <div class="gallery-card" data-cat="pulseras" data-featured="true" data-name="Pulsera Elegante" data-price="₡6.000" data-desc="Cadena dorada con cristales. Perfecta para una ocasión especial.">
       <div class="card-img">
         <!-- <img src="img/pulsera-06.jpg" alt="Pulsera Elegante"> -->
         <div class="card-img-placeholder">📸<br/>pulsera-06.jpg</div>
@@ -845,7 +856,7 @@
       <div class="card-info"><p class="card-name">Anillo Trenzado</p><span class="card-cat">Anillos</span></div>
     </div>
 
-    <div class="gallery-card" data-cat="anillos" data-name="Anillo con Piedra" data-price="₡4.500" data-desc="Con piedra semipreciosa al centro. Cada uno es completamente único.">
+    <div class="gallery-card" data-cat="anillos" data-featured="true" data-name="Anillo con Piedra" data-price="₡4.500" data-desc="Con piedra semipreciosa al centro. Cada uno es completamente único.">
       <div class="card-img">
         <!-- <img src="img/anillo-03.jpg" alt="Anillo con Piedra"> -->
         <div class="card-img-placeholder">📸<br/>anillo-03.jpg</div>
@@ -1044,7 +1055,10 @@
       btn.classList.add('active');
       const filter = btn.dataset.filter;
       cards.forEach(card => {
-        if (filter === 'todos' || card.dataset.cat === filter) {
+        const matchCat      = card.dataset.cat === filter;
+        const matchFeatured = filter === 'destacadas' && card.dataset.featured === 'true';
+        const matchAll      = filter === 'todos';
+        if (matchAll || matchCat || matchFeatured) {
           card.classList.remove('hidden');
         } else {
           card.classList.add('hidden');
